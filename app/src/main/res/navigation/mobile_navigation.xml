@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.edu.io.pulse.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_item" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_gallery"-->
+<!--        android:name="com.edu.io.pulse.ui.gallery.GalleryFragment"-->
+<!--        android:label="@string/menu_gallery"-->
+<!--        tools:layout="@layout/fragment_gallery" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_slideshow"-->
+<!--        android:name="com.edu.io.pulse.ui.slideshow.SlideshowFragment"-->
+<!--        android:label="@string/menu_slideshow"-->
+<!--        tools:layout="@layout/fragment_slideshow" />-->
+
+    <fragment
+        android:id="@+id/nav_quiz_list"
+        android:name="com.edu.io.pulse.ui.quiz_list.ListSetsFragment"
+        android:label="@string/quiz_screen_title"
+        tools:layout="@layout/fragment_item" >
+        <action
+            android:id="@+id/action_nav_quiz_list_to_quiz_main"
+            app:destination="@id/quizStartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quiz_main"
+        android:name="com.edu.io.pulse.ui.quiz.Quiz"
+        android:label="@string/menu_quiz"
+        tools:layout="@layout/fragment_quiz" >
+        <action
+            android:id="@+id/action_quiz_main_to_quiz_review"
+            app:destination="@id/quiz_review" />
+        <action
+            android:id="@+id/action_quiz_main_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizStartFragment"
+        android:name="com.edu.io.pulse.ui.QuizStartFragment"
+        android:label="fragment_quiz_start"
+        tools:layout="@layout/fragment_quiz_start" >
+        <action
+            android:id="@+id/action_quizStartFragment_to_quiz_main"
+            app:destination="@id/quiz_main" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/quiz_review"
+        android:name="com.edu.io.pulse.ui.review.QuizReviewFragment"
+        android:label="Review"
+        tools:layout="@layout/fragment_quiz_review" >
+        <action
+            android:id="@+id/action_quiz_review_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+</navigation>

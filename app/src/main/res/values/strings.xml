@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">pulse</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <!--    <string name="menu_gallery">Gallery</string>-->
+    <!--    <string name="menu_slideshow">Slideshow</string>-->
+    <string name="menu_quiz">Quiz</string>
+
+    <string name="quiz_screen_title">Sets</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+    <string name="rule_title">নিয়ম</string>
+    <string name="rule_1"> > মোট প্রশ্ন ৫০ টা । </string>
+    <string name="rule_2"> > সময় ৩০ মিনিট ।  </string>
+    <string name="rule_3"> > প্রতি প্রশ্নের মান সমান । </string>
+    <string name="rule_4">নিয়ম</string>
+    <string name="rule_5">নিয়ম</string>
+    <string name="rule_6">নিয়ম</string>
+    <string name="btn_text_next"><![CDATA[Next >>]]></string>
+
+    <string name="option_label_format">%1$s. %2$s</string>
+    <string name="question_counter_format">"%d/%d"</string>
+    <string name="btnNextText">Next</string>
+    <string name="btnFinishText">Finish</string>
+    <string name="creator_email">roconmachine@gmail.com</string>
+</resources>
