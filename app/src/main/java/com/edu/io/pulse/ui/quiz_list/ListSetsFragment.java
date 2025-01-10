@@ -86,7 +86,7 @@ public class ListSetsFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("set_no", ++position);
                 NavController navController = Navigation.findNavController(requireView());
-                navController.navigate(R.id.action_nav_quiz_list_to_quiz_main);
+                navController.navigate(R.id.action_nav_quiz_list_to_quiz_main, bundle);
             }));
         }
 

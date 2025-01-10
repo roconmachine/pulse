@@ -38,4 +38,7 @@ public class Database {
         return list;
     }
 
+    public static String getSetName(int set){
+        return "Set " + set;
+    }
 }

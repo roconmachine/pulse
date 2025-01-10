@@ -18,13 +18,13 @@
 
 
 
-    <string name="rule_title">নিয়ম</string>
-    <string name="rule_1"> > মোট প্রশ্ন ৫০ টা । </string>
-    <string name="rule_2"> > সময় ৩০ মিনিট ।  </string>
-    <string name="rule_3"> > প্রতি প্রশ্নের মান সমান । </string>
-    <string name="rule_4">নিয়ম</string>
-    <string name="rule_5">নিয়ম</string>
-    <string name="rule_6">নিয়ম</string>
+    <string name="rule_title">নিয়ম :</string>
+    <string name="rule_1"> ১। মোট প্রশ্ন ৫০ টা । </string>
+    <string name="rule_2"> ২। সময় ৩০ মিনিট ।  </string>
+    <string name="rule_3"> ৩। প্রতি প্রশ্নের মান সমান । </string>
+    <string name="rule_4">৪। প্রতি প্রশ্নের মান সমান </string>
+    <string name="rule_5">৫। প্রতি প্রশ্নের মান সমান </string>
+    <string name="rule_6">৬। প্রতি প্রশ্নের মান সমান </string>
     <string name="btn_text_next"><![CDATA[Next >>]]></string>
 
     <string name="option_label_format">%1$s. %2$s</string>
@@ -32,4 +32,5 @@
     <string name="btnNextText">Next</string>
     <string name="btnFinishText">Finish</string>
     <string name="creator_email">roconmachine@gmail.com</string>
+    <string name="btnStart">Start</string>
 </resources>

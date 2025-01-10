@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.QuizStartFragment">
+    tools:context=".ui.QuizStartFragment"
+    android:background="@drawable/bg"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,6 +31,7 @@
             android:orientation="vertical"
             android:layout_margin="40dp"
 
+            android:padding="40dp"
             >
             <TextView
                 android:layout_width="match_parent"
@@ -83,14 +86,18 @@
                 android:text="@string/rule_6"
                 style="@style/BulletPointTextStyle"
 
+
                 />
 
         </LinearLayout>
 
         <Button android:id="@+id/btn_start"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Start"/>
+            android:text="@string/btnStart"
+            android:background="@color/contrast_color"
+            android:layout_gravity="center_horizontal"
+            />
 
 
 
