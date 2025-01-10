@@ -3,6 +3,7 @@ package com.edu.io.pulse.ui.quiz_list;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,8 @@ public class SetsRecyclerViewAdapter extends RecyclerView.Adapter<SetsRecyclerVi
 
     }
 
+
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.setName.setText(mValues.get(position).getSetName());
@@ -42,6 +45,7 @@ public class SetsRecyclerViewAdapter extends RecyclerView.Adapter<SetsRecyclerVi
                 onItemClickListener.onItemClick(holder, position, mValues.get(position));
             }
         });
+        holder.itemView.setBackgroundColor(Color.GRAY);
     }
 
     @Override
@@ -59,6 +63,7 @@ public class SetsRecyclerViewAdapter extends RecyclerView.Adapter<SetsRecyclerVi
             setName = binding.setName;
 
         }
+
 
         @NonNull
         @Override

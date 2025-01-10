@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.edu.io.pulse.R;
 import com.edu.io.pulse.core.OnItemClickListener;
+import com.edu.io.pulse.utils.Database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +31,7 @@ public class ListSetsFragment extends Fragment {
      int mColumnCount;
     List<SetsDomain> setsDomainList;
     public ListSetsFragment() {
-        setsDomainList = new ArrayList<>(0);
-        setsDomainList.add(new SetsDomain("set 11"));
-        setsDomainList.add(new SetsDomain("set 13"));
-        setsDomainList.add(new SetsDomain("set 14"));
+        setsDomainList = Database.getSets();
 
     }
 
@@ -73,9 +71,9 @@ public class ListSetsFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(new SetsRecyclerViewAdapter(setsDomainList, (viewHolder, position, item) -> {
-//                Toast.makeText(context, ((SetsDomain)item).getSetName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, ((SetsDomain)item).getSetName(), Toast.LENGTH_LONG).show();
                 Bundle bundle = new Bundle();
-                bundle.putInt("set_index", position);
+                bundle.putInt("set_no", ++position);
                 NavController navController = Navigation.findNavController(requireView());
                 navController.navigate(R.id.action_nav_quiz_list_to_quiz_main);
             }));

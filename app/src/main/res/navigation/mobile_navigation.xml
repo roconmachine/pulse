@@ -47,7 +47,7 @@
     <fragment
         android:id="@+id/quizStartFragment"
         android:name="com.edu.io.pulse.ui.QuizStartFragment"
-        android:label="fragment_quiz_start"
+        android:label="Starting"
         tools:layout="@layout/fragment_quiz_start" >
         <action
             android:id="@+id/action_quizStartFragment_to_quiz_main"
