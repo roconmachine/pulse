@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.edu.io.pulse.R;
 import com.edu.io.pulse.core.OnItemClickListener;
 import com.edu.io.pulse.databinding.FragmentItemBinding;
 
@@ -45,7 +47,19 @@ public class SetsRecyclerViewAdapter extends RecyclerView.Adapter<SetsRecyclerVi
                 onItemClickListener.onItemClick(holder, position, mValues.get(position));
             }
         });
-        holder.itemView.setBackgroundColor(Color.GRAY);
+        holder.itemView.setBackgroundResource(
+                mValues.get(position).getStatus() == SetsDomain.Status.LOCKED?
+                        R.drawable.locked_list_item:
+                        R.drawable.unlocked_list_item
+        );
+
+        holder.statusImage.setImageResource(
+                mValues.get(position).getStatus() == SetsDomain.Status.LOCKED ?
+                        R.drawable.lock_yellow :
+                        R.drawable.bd_round
+
+        );
+
     }
 
     @Override
@@ -56,12 +70,13 @@ public class SetsRecyclerViewAdapter extends RecyclerView.Adapter<SetsRecyclerVi
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public final TextView setName;
+        public final ImageView statusImage;
 
 
         public ViewHolder(FragmentItemBinding binding) {
             super(binding.getRoot());
             setName = binding.setName;
-
+            statusImage = binding.statusImg;
         }
 
 

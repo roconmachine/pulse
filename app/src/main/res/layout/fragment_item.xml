@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    style="@style/cardViewStyle">
+    android:background="@drawable/bd_round"
+    android:weightSum="1"
+    >
 
 
     <TextView
@@ -11,5 +14,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_weight=".8"/>
+
+    <ImageView
+        android:id="@+id/status_img"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight=".2"
+        app:srcCompat="@drawable/locked_icon"
+        android:layout_gravity="center_vertical"
+        />
+
+
 </LinearLayout>

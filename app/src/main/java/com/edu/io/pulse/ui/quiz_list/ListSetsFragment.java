@@ -32,7 +32,12 @@ public class ListSetsFragment extends Fragment {
     List<SetsDomain> setsDomainList;
     public ListSetsFragment() {
         setsDomainList = Database.getSets();
+        ///manage locked, submitted and uplocaked
+        for (SetsDomain set:setsDomainList) {
+            set.setStatus(SetsDomain.Status.LOCKED);
+        }
 
+        this.setsDomainList.get(0).setStatus(SetsDomain.Status.UNLOCKED);
     }
 
     // TODO: Customize parameter initialization
@@ -71,7 +76,13 @@ public class ListSetsFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(new SetsRecyclerViewAdapter(setsDomainList, (viewHolder, position, item) -> {
-                Toast.makeText(context, ((SetsDomain)item).getSetName(), Toast.LENGTH_LONG).show();
+
+                if (((SetsDomain)item).getStatus() == SetsDomain.Status.LOCKED)
+                {
+                    Toast.makeText(context, "The " + ((SetsDomain)item).getSetName() + " is locked for you.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 Bundle bundle = new Bundle();
                 bundle.putInt("set_no", ++position);
                 NavController navController = Navigation.findNavController(requireView());

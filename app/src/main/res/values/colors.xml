@@ -23,5 +23,5 @@
     <color name="tertiary_color">#ffb007</color>
     <color name="contrast_color">#0E0554</color>
     <color name="text_color">#ffffff</color>
-
+    <color name="disable_color">#e3e3e1</color>
 </resources>

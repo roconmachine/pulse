@@ -15,7 +15,12 @@ import java.util.Map;
  */
 public class SetsDomain {
     private String setName;
-    private boolean isLocked;
+    private Status status;
+    enum Status{
+        LOCKED,
+        UNLOCKED,
+        SUBMITTED
+    }
 
     public SetsDomain(String setName){
         this.setName = setName;
@@ -29,11 +34,11 @@ public class SetsDomain {
         this.setName = setName;
     }
 
-    public boolean isLocked() {
-        return isLocked;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setLocked(boolean locked) {
-        isLocked = locked;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
