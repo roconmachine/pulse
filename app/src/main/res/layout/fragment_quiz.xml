@@ -68,12 +68,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:fontFamily="monospace"
+
         android:gravity="center"
         android:text="lkafeiaslekfajeifa ld jalei aldf jeif aldk aei"
         android:textColor="@color/text_color"
+        android:fontFamily="@font/sutonnymj_regular"
 
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/view5"
         app:layout_constraintEnd_toEndOf="@+id/view5"
         app:layout_constraintStart_toStartOf="@+id/view5"
@@ -93,37 +94,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/rule_title"
-            android:background="@drawable/roundable"
+            style="@style/radio_btn_style"
+            android:background="@drawable/bg_round"
             />
 
         <RadioButton android:id="@+id/optionB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule_title"/>
+            android:text="@string/rule_title"
+            style="@style/radio_btn_style"
+            android:background="@drawable/bg_round"/>
 
         <RadioButton android:id="@+id/optionC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule_title"/>
+            android:text="@string/rule_title"
+            style="@style/radio_btn_style"
+            android:background="@drawable/bg_round"/>
 
         <RadioButton android:id="@+id/optionD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule_title"/>
+            android:text="@string/rule_title"
+            style="@style/radio_btn_style"
+            android:background="@drawable/bg_round"/>
 
     </RadioGroup>
 
-    <Button
-        android:id="@+id/nextBtn"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
-        android:backgroundTint="@color/txt_color1"
-        android:background="@drawable/roundable"
-        android:text="@string/btnNextText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/options" />
+        app:layout_constraintTop_toBottomOf="@+id/options"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:weightSum="1"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        >
+
+
+        <Button
+            android:id="@+id/preBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:text="@string/btnPrevText"
+            android:backgroundTint="@color/black"
+            android:layout_weight=".4"
+            android:layout_marginEnd="10dp"
+            />
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:text="@string/btnNextText"
+            android:backgroundTint="@color/contrast_color"
+            android:layout_marginStart="10dp"
+            />
+    </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,6 +41,16 @@
         <item name="android:lineSpacingExtra">8dp</item>
     </style>
 
+    <!--    custom-->
+    <style name="radio_btn_style">
+        <item name="fontFamily">@font/sutonnymj_regular</item>
+        <item name="android:layout_marginBottom">2dp</item>
+    </style>
+
+    <style name="question_text_style">
+        <item name="fontFamily">@font/sutonnymj_regular</item>
+
+    </style>
 
 
 

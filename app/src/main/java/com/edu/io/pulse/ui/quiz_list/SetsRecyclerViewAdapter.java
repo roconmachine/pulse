@@ -3,9 +3,7 @@ package com.edu.io.pulse.ui.quiz_list;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,7 +54,7 @@ public class SetsRecyclerViewAdapter extends RecyclerView.Adapter<SetsRecyclerVi
         holder.statusImage.setImageResource(
                 mValues.get(position).getStatus() == SetsDomain.Status.LOCKED ?
                         R.drawable.lock_yellow :
-                        R.drawable.bd_round
+                        R.drawable.bg_round
 
         );
 

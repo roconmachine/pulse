@@ -1,7 +1,6 @@
 package com.edu.io.pulse.ui.quiz;
 
-import androidx.lifecycle.ViewModelProvider;
-
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,12 +13,10 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edu.io.pulse.R;
-import com.edu.io.pulse.databinding.FragmentHomeBinding;
 import com.edu.io.pulse.databinding.FragmentQuizBinding;
+import com.edu.io.pulse.utils.Database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +24,9 @@ import java.util.List;
 public class Quiz extends Fragment {
 
     private FragmentQuizBinding binding;
+    private static final String ARG_PARAM1 = "set_no";
+    private Typeface fontBangla;
+    private int set = 0;
     CountDownTimer timer;
     int numberOfQuestion;
     List<QuizQuestion> quizQuestions;
@@ -35,6 +35,14 @@ public class Quiz extends Fragment {
 
     public static Quiz newInstance() {
         return new Quiz();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            set = getArguments().getInt(ARG_PARAM1);
+        }
     }
 
     @Override
@@ -50,16 +58,7 @@ public class Quiz extends Fragment {
 
     private void initView(){
         this.quizQuestions = new ArrayList<>(0);
-        this.quizQuestions.add(new QuizQuestion(
-                "sss",
-                new String[]{"sss", "eeee", " SFE", "efw a"}
-                ,2
-        ));
-        this.quizQuestions.add(new QuizQuestion(
-                "তুমি কি কিছু জান ?",
-                new String[]{"তুমি ", "তুমি ", "তুমি ", "তুমি "},
-                1
-        ));
+        this.quizQuestions = Database.getQuestionBySet(this.set);
         currentQuestionIndex = -1;
         setNextQuestion();
         startTimer(this.quizQuestions.size() * 60);
@@ -67,6 +66,8 @@ public class Quiz extends Fragment {
         binding.nextBtn.setOnClickListener(v -> {
             this.setNextQuestion();
         });
+
+        //fontBangla = Typeface.createFromAsset(getContext().getAssets(), getf);
     }
 
     void startTimer(int secs){
@@ -99,11 +100,11 @@ public class Quiz extends Fragment {
         }
         QuizQuestion question = this.quizQuestions.get(currentQuestionIndex);
         binding.question.setText(question.getQuestion());
-
-        binding.optionA.setText(getString(R.string.option_label_format,"A. ", question.getOptions()[0]));
-        binding.optionB.setText(getString(R.string.option_label_format,"B. ", question.getOptions()[1]));
-        binding.optionC.setText(getString(R.string.option_label_format,"C. ", question.getOptions()[2]));
-        binding.optionD.setText(getString(R.string.option_label_format,"D. ", question.getOptions()[3]));
+        //binding.question.setTypeface(fontBangla);
+        binding.optionA.setText(getString(R.string.option_label_format,"1", question.getOptions()[0]));
+        binding.optionB.setText(getString(R.string.option_label_format,"2", question.getOptions()[1]));
+        binding.optionC.setText(getString(R.string.option_label_format,"3", question.getOptions()[2]));
+        binding.optionD.setText(getString(R.string.option_label_format,"4", question.getOptions()[3]));
 
         binding.questionCounter.setText(getString(
                 R.string.question_counter_format,

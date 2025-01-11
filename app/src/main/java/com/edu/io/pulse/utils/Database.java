@@ -18,7 +18,7 @@ public class Database {
         if(set > questions.size()/QUESTION_PERSET) return null;
 
         int indexStart = (set - 1) * QUESTION_PERSET;
-        int indexEnd = indexStart + QUESTION_PERSET;
+        int indexEnd = indexStart + QUESTION_PERSET-1;
 
         List<QuizQuestion> quizQuestions = new ArrayList<>();
         for (;indexStart <= indexEnd; indexStart++)

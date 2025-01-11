@@ -29,7 +29,8 @@
 
     <string name="option_label_format">%1$s. %2$s</string>
     <string name="question_counter_format">"%d/%d"</string>
-    <string name="btnNextText">Next</string>
+    <string name="btnNextText">Next -&gt;</string>
+    <string name="btnPrevText"> &lt;- Prev</string>
     <string name="btnFinishText">Finish</string>
     <string name="creator_email">roconmachine@gmail.com</string>
     <string name="btnStart">Start</string>

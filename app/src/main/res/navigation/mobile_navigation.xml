@@ -42,7 +42,7 @@
             app:destination="@id/quiz_review" />
         <action
             android:id="@+id/action_quiz_main_to_nav_home"
-            app:destination="@id/nav_home" />
+            app:destination="@id/nav_quiz_list" />
     </fragment>
     <fragment
         android:id="@+id/quizStartFragment"
