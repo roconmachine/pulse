@@ -1,6 +1,7 @@
 package com.edu.io.pulse.ui.quiz;
 
 public class QuizQuestion {
+    private int id;
     private String question;
     private String[] options;
     private int answer;
@@ -35,7 +36,15 @@ public class QuizQuestion {
         return answer;
     }
 
-    public void setAnswer(int answer) {
-        this.answer = answer;
+    public void setAnswer(int youranswer) {
+        this.answer = youranswer;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -1,18 +1,13 @@
 package com.edu.io.pulse;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
 
 import com.edu.io.pulse.ui.quiz.QuizQuestion;
 import com.edu.io.pulse.utils.Database;
 import com.edu.io.pulse.utils.Util;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -26,7 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             for (int i =0; i < array.length(); i++){
                 JSONObject ques = array.getJSONObject(i);
                 question = new QuizQuestion();
+                question.setId(i+1);
                 question.setQuestion(ques.optString("q"));
                 question.setAnswer(ques.optInt("answer"));
                 JSONArray options = ques.optJSONArray("options");

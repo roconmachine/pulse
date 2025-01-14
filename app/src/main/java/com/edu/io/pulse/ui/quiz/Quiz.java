@@ -16,10 +16,14 @@ import android.view.ViewGroup;
 
 import com.edu.io.pulse.R;
 import com.edu.io.pulse.databinding.FragmentQuizBinding;
+import com.edu.io.pulse.utils.AppSharedPreference;
 import com.edu.io.pulse.utils.Database;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Quiz extends Fragment {
 
@@ -30,6 +34,8 @@ public class Quiz extends Fragment {
     CountDownTimer timer;
     int numberOfQuestion;
     List<QuizQuestion> quizQuestions;
+    HashMap<Integer, Answer> answers = new HashMap<Integer, Answer>(0);
+    Answer currentAnswer = new Answer();
     int currentQuestionIndex = 0;
 
 
@@ -66,8 +72,16 @@ public class Quiz extends Fragment {
         binding.nextBtn.setOnClickListener(v -> {
             this.setNextQuestion();
         });
+        binding.preBtn.setOnClickListener(v -> {
+            this.setPrevQuestion();
+        });
 
-        //fontBangla = Typeface.createFromAsset(getContext().getAssets(), getf);
+        binding.options.setOnCheckedChangeListener((group, checkedId) -> {
+
+            int index = group.indexOfChild(group.findViewById(checkedId));
+            currentAnswer.setAns(index+1);
+        });
+        answers = new HashMap<Integer, Answer>(0);
     }
 
     void startTimer(int secs){
@@ -93,12 +107,39 @@ public class Quiz extends Fragment {
     }
 
     private void setNextQuestion() {
+        this.answers.put((Integer) this.currentAnswer.getIdQuestion(), this.currentAnswer);
         currentQuestionIndex++;
         if(currentQuestionIndex >= this.quizQuestions.size()){
             finishQuiz();
             return;
         }
         QuizQuestion question = this.quizQuestions.get(currentQuestionIndex);
+        this.setQuestion(question);
+        //this.setAnswer();
+    }
+
+    private void setAnswer() {
+        this.currentAnswer = new Answer();
+        this.currentAnswer.setIdQuestion(this.quizQuestions.get(currentQuestionIndex).getId());
+        this.currentAnswer.setCurrectAnswer(this.quizQuestions.get(currentQuestionIndex).getAnswer());
+    }
+
+    private void setPrevQuestion() {
+        this.answers.put((Integer) this.currentAnswer.getIdQuestion(), this.currentAnswer);
+        if (this.currentQuestionIndex <=0)
+        {
+            return;
+        }
+        currentQuestionIndex--;
+        binding.nextBtn.setText(R.string.btnNextText);
+        QuizQuestion question = this.quizQuestions.get(currentQuestionIndex);
+        this.setQuestion(question);
+    }
+
+
+    private void setQuestion(QuizQuestion question){
+
+
         binding.question.setText(question.getQuestion());
         //binding.question.setTypeface(fontBangla);
         binding.optionA.setText(getString(R.string.option_label_format,"1", question.getOptions()[0]));
@@ -107,9 +148,9 @@ public class Quiz extends Fragment {
         binding.optionD.setText(getString(R.string.option_label_format,"4", question.getOptions()[3]));
 
         binding.questionCounter.setText(getString(
-                R.string.question_counter_format,
-                currentQuestionIndex+1,
-                this.quizQuestions.size()
+                        R.string.question_counter_format,
+                        currentQuestionIndex+1,
+                        this.quizQuestions.size()
                 )
         );
 
@@ -117,10 +158,18 @@ public class Quiz extends Fragment {
             binding.nextBtn.setText(R.string.btnFinishText);
         }
 
+        setAnswer();
     }
+
+
+
 
     private void finishQuiz()
     {
+        for (Map.Entry<Integer, Answer> entry : this.answers.entrySet()) {
+            AppSharedPreference.getInstance(getContext()).saveString(entry.getKey() + "", new Gson().toJson(entry.getValue()));
+        }
+
         NavController navController = Navigation.findNavController(requireView());
         navController.navigate(R.id.action_quiz_main_to_nav_home);
     }
