@@ -39,7 +39,7 @@
         tools:layout="@layout/fragment_quiz" >
         <action
             android:id="@+id/action_quiz_main_to_quiz_review"
-            app:destination="@id/quiz_review" />
+            app:destination="@id/fragment_review" />
         <action
             android:id="@+id/action_quiz_main_to_nav_home"
             app:destination="@id/nav_quiz_list" />
@@ -55,10 +55,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/quiz_review"
-        android:name="com.edu.io.pulse.ui.review.QuizReviewFragment"
+        android:id="@+id/fragment_review"
+        android:name="com.edu.io.pulse.ui.reviews.ReviewFragment"
         android:label="Review"
-        tools:layout="@layout/fragment_quiz_review" >
+        tools:layout="@layout/fragment_review" >
         <action
             android:id="@+id/action_quiz_review_to_nav_home"
             app:destination="@id/nav_home" />

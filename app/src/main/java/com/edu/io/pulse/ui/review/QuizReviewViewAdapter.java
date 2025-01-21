@@ -6,13 +6,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.edu.io.pulse.databinding.FragmentQuizReviewBinding;
+
+import java.util.ArrayList;
 import java.util.List;
 public class QuizReviewViewAdapter extends RecyclerView.Adapter<QuizReviewViewAdapter.ViewHolder> {
 
     private final List<AnsweredQuestion> mValues;
 
     public QuizReviewViewAdapter(List<AnsweredQuestion> items) {
-        mValues = items;
+        mValues = (items != null) ? items : new ArrayList<>();
     }
 
     @Override
@@ -27,9 +29,6 @@ public class QuizReviewViewAdapter extends RecyclerView.Adapter<QuizReviewViewAd
         holder.mItem = mValues.get(position);
         holder.textViewAnser.setText(mValues.get(position).getYouranswer());
         holder.textViewQuestion.setText(mValues.get(position).getQuestion());
-//        holder.imgCheckedCorrent.setImageResource(
-//
-//        );
         holder.textViewAnswerIfWrong.setText(mValues.get(position).getAnswer());
     }
 

@@ -170,8 +170,10 @@ public class Quiz extends Fragment {
             AppSharedPreference.getInstance(getContext()).saveString(entry.getKey() + "", new Gson().toJson(entry.getValue()));
         }
 
+        Bundle bundle = new Bundle();
+        bundle.putInt("set_no", this.set);
         NavController navController = Navigation.findNavController(requireView());
-        navController.navigate(R.id.action_quiz_main_to_nav_home);
+        navController.navigate(R.id.action_quiz_main_to_quiz_review, bundle);
     }
 
 
