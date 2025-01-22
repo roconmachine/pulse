@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.edu.io.pulse.ui.review.AnsweredQuestion;
@@ -37,6 +38,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getId() +"");
         holder.mContentView.setText(mValues.get(position).getQuestion());
+        holder.answer.setText(mValues.get(position).getAnswer() + "");
+
+
     }
 
     @Override
@@ -47,12 +51,18 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView answer;
+        public final ImageView checkedAnser;
+        public final TextView correctAnswer;
         public AnsweredQuestion mItem;
 
         public ViewHolder(FragmentReviewBinding binding) {
             super(binding.getRoot());
             mIdView = binding.itemNumber;
             mContentView = binding.content;
+            answer = binding.answer;
+            checkedAnser = binding.checkedAnswer;
+            correctAnswer = binding.correctAnswer;
         }
 
         @Override

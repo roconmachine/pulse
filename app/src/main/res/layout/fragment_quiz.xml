@@ -61,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.edu.io.pulse.core.MultiFontTextView
         android:id="@+id/question"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
         android:layout_marginEnd="16dp"
 
         android:gravity="center"
-        android:text="lkafeiaslekfajeifa ld jalei aldf jeif aldk aei"
+
         android:textColor="@color/text_color"
         android:fontFamily="@font/sutonnymj_regular"
 
