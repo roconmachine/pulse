@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,10 +21,13 @@ import com.edu.io.pulse.ui.review.AnsweredQuestion;
 import com.edu.io.pulse.ui.reviews.placeholder.PlaceholderContent;
 import com.edu.io.pulse.utils.AppSharedPreference;
 import com.edu.io.pulse.utils.Database;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A fragment representing a list of Items.
@@ -35,6 +40,7 @@ public class ReviewFragment extends Fragment {
     private int mColumnCount = 1;
     private int set = 0;
     private final Gson gson = new Gson();
+    FloatingActionButton floating;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -79,6 +85,16 @@ public class ReviewFragment extends Fragment {
             }
             recyclerView.setAdapter(new ReviewsAdapter(getData()));
         }
+
+        floating = requireActivity().findViewById(R.id.floating_btn);
+        floating.setVisibility(View.VISIBLE);
+        floating.setOnClickListener(v -> {
+            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            floating.setVisibility(View.INVISIBLE);
+            NavController navController = Navigation.findNavController(requireView());
+            navController.navigate(R.id.action_quiz_review_to_nav_home);
+        });
         return view;
     }
 
@@ -99,5 +115,13 @@ public class ReviewFragment extends Fragment {
         }
 
         return answeredQuestions;
+    }
+
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        floating.setVisibility(View.INVISIBLE);
     }
 }

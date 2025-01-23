@@ -21,17 +21,18 @@
 
 
 
-    <com.edu.io.pulse.core.MultiFontTextView
-        android:id="@+id/multiFontTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:text="$AB $GKwU mij‡iLv| †Kv‡bv GKwU ewnt¯’ we›`y $O $n‡Z $AB $†iLvi ÿz`ªZg
-`~iZ¡ $OC $n‡j $∠OCB $KZ wWwMÖ n‡e?"
 
-        />
+<!--    <com.edu.io.pulse.core.MultiFontTextView-->
+<!--        android:id="@+id/multiFontTextView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textColor="@android:color/black"-->
+<!--        android:padding="16dp"-->
+<!--        android:textSize="18sp"-->
+<!--        android:text="$AB $GKwU mij‡iLv| †Kv‡bv GKwU ewnt¯’ we›`y $O $n‡Z $AB $†iLvi ÿz`ªZg-->
+<!--`~iZ¡ $OC $n‡j $∠OCB $KZ wWwMÖ n‡e?"-->
+
+<!--        />-->
 
 
 

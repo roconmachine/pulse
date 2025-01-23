@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 public class GeometricalCanvas extends View {
 
+
     public GeometricalCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
