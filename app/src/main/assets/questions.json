@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "q":"$AB $GKwU mij‡iLv| †Kv‡bv GKwU ewnt¯’ we›`y $O $n‡Z $AB $†iLvi ÿz`ªZg\n`~iZ¡ $OC $n‡j $∠OCB $KZ wWwMÖ n‡e?",
     "options":
     [
@@ -12,6 +13,7 @@
   },
 
   {
+    "id": 2,
     "q":"0, 1, 2 Ges 3 Øviv MwVZ Pvi A‡¼i e„nËg Ges ÿz`ªZg msL¨vi we‡qvMdjÑ",
     "options":
     [
@@ -24,6 +26,7 @@
   },
 
   {
+    "id": 3,
     "q":"cuvP A‡¼i ÿz`ªZg msL¨v Ges Pvi A‡¼i e„nËg msL¨vi AšÍi KZ?",
     "options":
     [
@@ -36,6 +39,7 @@
   },
 
   {
+    "id": 4,
     "q":"hw` Zzwg 1 †_‡K 100 ch©šÍ MYbv Ki, Z‡e Gi g‡a¨ KZ 5 cv‡e?",
     "options":
     [
@@ -48,6 +52,7 @@
   },
 
   {
+    "id": 5,
     "q":"GKwU msL¨vi kZK, `kK I GKK ¯’vbxq A¼ h_vµ‡g p, q, r n‡j msL¨vwU\nn‡eÑ",
     "options":
     [
@@ -59,6 +64,7 @@
     "answer":3
   },
   {
+    "id": 6,
     "q":"cici wZbwU msL¨vi ¸Ydj 120 n‡j Zv‡`i †hvMdj KZ? [32thBCS ]",
     "options":
     [
@@ -71,6 +77,7 @@
   },
 
   {
+    "id": 7,
     "q":"0, 1, 2 Ges 3 Øviv MwVZ Pvi A‡¼i e„nËg Ges ÿz`ªZg msL¨vi we‡qvMdjÑ",
     "options":
     [
@@ -83,6 +90,7 @@
   },
 
   {
+    "id": 8,
     "q":"cuvP A‡¼i ÿz`ªZg msL¨v Ges Pvi A‡¼i e„nËg msL¨vi AšÍi KZ?",
     "options":
     [
@@ -95,6 +103,7 @@
   },
 
   {
+    "id": 9,
     "q":"hw` Zzwg 1 †_‡K 100 ch©šÍ MYbv Ki, Z‡e Gi g‡a¨ KZ 5 cv‡e?",
     "options":
     [
@@ -107,6 +116,7 @@
   },
 
   {
+    "id": 10,
     "q":"GKwU msL¨vi kZK, `kK I GKK ¯’vbxq A¼ h_vµ‡g p, q, r n‡j msL¨vwU\nn‡eÑ",
     "options":
     [

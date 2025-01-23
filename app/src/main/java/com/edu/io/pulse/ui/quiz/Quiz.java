@@ -141,7 +141,7 @@ public class Quiz extends Fragment {
 
 
         binding.question.setText(question.getQuestion());
-        //binding.question.setTypeface(fontBangla);
+        binding.options.clearCheck();
         binding.optionA.setText(getString(R.string.option_label_format,"1", question.getOptions()[0]));
         binding.optionB.setText(getString(R.string.option_label_format,"2", question.getOptions()[1]));
         binding.optionC.setText(getString(R.string.option_label_format,"3", question.getOptions()[2]));

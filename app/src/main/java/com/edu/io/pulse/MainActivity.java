@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             for (int i =0; i < array.length(); i++){
                 JSONObject ques = array.getJSONObject(i);
                 question = new QuizQuestion();
-                question.setId(i+1);
+                question.setId(ques.optInt("id"));
                 question.setQuestion(ques.optString("q"));
                 question.setAnswer(ques.optInt("answer"));
                 JSONArray options = ques.optJSONArray("options");
