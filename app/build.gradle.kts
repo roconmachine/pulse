@@ -32,6 +32,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    buildToolsVersion = buildToolsVersion
 }
 
 dependencies {
@@ -46,6 +47,10 @@ dependencies {
     implementation(libs.legacy.support.v4)
     implementation(libs.recyclerview)
     implementation(libs.gson)
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

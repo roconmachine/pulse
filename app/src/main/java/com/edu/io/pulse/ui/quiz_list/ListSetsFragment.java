@@ -28,16 +28,11 @@ import java.util.List;
 public class ListSetsFragment extends Fragment {
 
     static String ARG_COLUMN_COUNT = "1";
-     int mColumnCount;
-    List<SetsDomain> setsDomainList;
-    public ListSetsFragment() {
-        setsDomainList = Database.getSets();
-        ///manage locked, submitted and uplocaked
-        for (SetsDomain set:setsDomainList) {
-            set.setStatus(SetsDomain.Status.LOCKED);
-        }
+    int mColumnCount;
+    List<SetsDomain> setsDomainList = new ArrayList<>();
+    private SetsRecyclerViewAdapter adapter;
 
-        this.setsDomainList.get(0).setStatus(SetsDomain.Status.UNLOCKED);
+    public ListSetsFragment() {
     }
 
     // TODO: Customize parameter initialization
@@ -59,8 +54,6 @@ public class ListSetsFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,23 +68,44 @@ public class ListSetsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new SetsRecyclerViewAdapter(setsDomainList, (viewHolder, position, item) -> {
+            adapter = new SetsRecyclerViewAdapter(setsDomainList, (viewHolder, position, item) -> {
 
-                if (((SetsDomain)item).getStatus() == SetsDomain.Status.LOCKED)
-                {
-                    Toast.makeText(context, "The " + ((SetsDomain)item).getSetName() + " is locked for you.", Toast.LENGTH_LONG).show();
+                if (((SetsDomain) item).getStatus() == SetsDomain.Status.LOCKED) {
+                    Toast.makeText(context, "The " + ((SetsDomain) item).getSetName() + " is locked for you.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("set_no", ++position);
+                bundle.putLong("set_id", ((SetsDomain) item).getId());
                 NavController navController = Navigation.findNavController(requireView());
                 navController.navigate(R.id.action_nav_quiz_list_to_quiz_main, bundle);
-            }));
+            });
+            recyclerView.setAdapter(adapter);
         }
+
+        Database.getSets(new Database.SetsCallback() {
+            @Override
+            public void onSetsReceived(List<SetsDomain> sets) {
+                if (sets != null && !sets.isEmpty()) {
+                    for (SetsDomain set : sets) {
+                        set.setStatus(SetsDomain.Status.LOCKED);
+                    }
+                    sets.get(0).setStatus(SetsDomain.Status.UNLOCKED);
+                    setsDomainList.clear();
+                    setsDomainList.addAll(sets);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "No sets available", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(getContext(), "Error fetching sets", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }
-
-
 }

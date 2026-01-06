@@ -14,6 +14,7 @@ import java.util.Map;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class SetsDomain {
+    private Long id;
     private String setName;
     private Status status;
     enum Status{
@@ -22,7 +23,8 @@ public class SetsDomain {
         SUBMITTED
     }
 
-    public SetsDomain(String setName){
+    public SetsDomain(Long id, String setName){
+        this.id = id;
         this.setName = setName;
     }
 
@@ -40,5 +42,13 @@ public class SetsDomain {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
