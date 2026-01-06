@@ -13,6 +13,7 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.edu.io.pulse.R;
 import com.edu.io.pulse.databinding.FragmentQuizBinding;
@@ -31,6 +32,7 @@ public class Quiz extends Fragment {
     private static final String ARG_PARAM1 = "set_no";
     private Typeface fontBangla;
     private int set = 0;
+    private Long setid = 0L;
     CountDownTimer timer;
     int numberOfQuestion;
     List<QuizQuestion> quizQuestions;
@@ -48,6 +50,7 @@ public class Quiz extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             set = getArguments().getInt(ARG_PARAM1);
+            setid = getArguments().getLong("set_id");
         }
     }
 
@@ -64,7 +67,26 @@ public class Quiz extends Fragment {
 
     private void initView(){
         this.quizQuestions = new ArrayList<>(0);
-        this.quizQuestions = Database.getQuestionBySet(this.set);
+        Database.getQuestionBySet(this.setid, new Database.BackendCallback<List<QuizQuestion>>() {
+            @Override
+            public void onReceived(List<QuizQuestion> questions) {
+                if (questions != null && !questions.isEmpty()){
+                    quizQuestions = new ArrayList<>(0);
+                    quizQuestions = questions;
+                }
+                else {
+                    Toast.makeText(getContext(), "No question available", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(getContext(), "Error fetching questions", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         currentQuestionIndex = -1;
         setNextQuestion();
         startTimer(this.quizQuestions.size() * 60);
