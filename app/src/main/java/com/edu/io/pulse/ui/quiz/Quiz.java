@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -18,7 +19,6 @@ import android.widget.Toast;
 import com.edu.io.pulse.R;
 import com.edu.io.pulse.databinding.FragmentQuizBinding;
 import com.edu.io.pulse.utils.AppSharedPreference;
-import com.edu.io.pulse.utils.Database;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -35,10 +35,11 @@ public class Quiz extends Fragment {
     private Long setid = 0L;
     CountDownTimer timer;
     int numberOfQuestion;
-    List<QuizQuestion> quizQuestions;
+    List<QuizQuestion> quizQuestions = new ArrayList<>();
     HashMap<Integer, Answer> answers = new HashMap<Integer, Answer>(0);
     Answer currentAnswer = new Answer();
     int currentQuestionIndex = 0;
+    private QuizViewModel quizViewModel;
 
 
     public static Quiz newInstance() {
@@ -61,32 +62,33 @@ public class Quiz extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_quiz, container, false);
 
         binding = FragmentQuizBinding.bind(rootView);
-        initView();
         return rootView;
     }
 
-    private void initView(){
-        this.quizQuestions = new ArrayList<>(0);
-        Database.getQuestionBySet(this.setid, new Database.BackendCallback<List<QuizQuestion>>() {
-            @Override
-            public void onReceived(List<QuizQuestion> questions) {
-                if (questions != null && !questions.isEmpty()){
-                    quizQuestions = new ArrayList<>(0);
-                    quizQuestions = questions;
-                }
-                else {
-                    Toast.makeText(getContext(), "No question available", Toast.LENGTH_SHORT).show();
-                }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-            }
+        quizViewModel = new ViewModelProvider(this).get(QuizViewModel.class);
 
-            @Override
-            public void onError(Throwable t) {
-                Toast.makeText(getContext(), "Error fetching questions", Toast.LENGTH_SHORT).show();
+        quizViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
+            if (questions != null && !questions.isEmpty()) {
+                quizQuestions.clear();
+                quizQuestions.addAll(questions);
+                initView();
+            } else {
+                Toast.makeText(getContext(), "No questions available", Toast.LENGTH_SHORT).show();
             }
         });
 
+        quizViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+        });
 
+        quizViewModel.fetchQuestionsBySet(setid);
+
+    }
+    private void initView(){
         currentQuestionIndex = -1;
         setNextQuestion();
         startTimer(this.quizQuestions.size() * 60);

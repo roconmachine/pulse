@@ -88,9 +88,9 @@ public class ListSetsFragment extends Fragment {
             @Override
             public void onSetsReceived(List<SetsDomain> sets) {
                 if (sets != null && !sets.isEmpty()) {
-                    for (SetsDomain set : sets) {
-                        set.setStatus(SetsDomain.Status.LOCKED);
-                    }
+//                    for (SetsDomain set : sets) {
+//                        set.setStatus(SetsDomain.Status.LOCKED);
+//                    }
                     sets.get(0).setStatus(SetsDomain.Status.UNLOCKED);
                     setsDomainList.clear();
                     setsDomainList.addAll(sets);

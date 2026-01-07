@@ -100,7 +100,8 @@ public class ReviewFragment extends Fragment {
 
     private List<AnsweredQuestion> getData(){
         List<AnsweredQuestion> answeredQuestions =  new ArrayList<>(0);
-        List<QuizQuestion> questions = Database.getQuestionBySet(this.set);
+        List<QuizQuestion> questions = null;
+        Database.getQuestionBySet(1100L, null);
         if (questions != null && !questions.isEmpty())
         {
             answeredQuestions = new ArrayList<>(0);

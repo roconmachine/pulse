@@ -7,10 +7,7 @@ import com.edu.io.pulse.apis.models.Sets;
 import com.edu.io.pulse.ui.quiz.QuizQuestion;
 import com.edu.io.pulse.ui.quiz_list.SetsDomain;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,10 +25,9 @@ public class Database {
     }
 
     public interface BackendCallback<T> {
-        void onReceived(T questions);
+        void onReceived(T data);
         void onError(Throwable t);
     }
-
 
     public static void setQuestions(List<QuizQuestion> _questions){
         Database.questions = _questions;
@@ -44,17 +40,19 @@ public class Database {
         call.enqueue(new Callback<List<Question>>() {
             @Override
             public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
-                response.body().forEach(question -> {
-                    ;
-                    quizQuestions.add(new QuizQuestion(question.getQuestionText(),
-                            List.of(question.getOptA(), question.getOptB(), question.getOptC(), question.getOptD()).toArray(new String[0]),
-                            question.getAnswer().equalsIgnoreCase("A")?1:
-                            question.getAnswer().equalsIgnoreCase("B")?2:
-                            question.getAnswer().equalsIgnoreCase("C")?3:4
-                            ));
-                });
-
-                callback.onReceived(quizQuestions);
+                if (response.isSuccessful() && response.body() != null) {
+                    response.body().forEach(question -> {
+                        quizQuestions.add(new QuizQuestion(question.getQuestionText(),
+                                List.of(question.getOptA(), question.getOptB(), question.getOptC(), question.getOptD()).toArray(new String[0]),
+                                question.getAnswer().equalsIgnoreCase("A") ? 1 :
+                                        question.getAnswer().equalsIgnoreCase("B") ? 2 :
+                                                question.getAnswer().equalsIgnoreCase("C") ? 3 : 4
+                        ));
+                    });
+                    callback.onReceived(quizQuestions);
+                } else {
+                    callback.onError(new Exception("Failed to fetch questions"));
+                }
             }
 
             @Override
@@ -62,7 +60,6 @@ public class Database {
                 callback.onError(t);
             }
         });
-
     }
 
     public static void getSets(SetsCallback callback) {

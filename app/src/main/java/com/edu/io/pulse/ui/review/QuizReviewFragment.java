@@ -39,7 +39,8 @@ public class QuizReviewFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quiz_review_list, container, false);
 
-        List<QuizQuestion> questions = Database.getQuestionBySet(this.set);
+        List<QuizQuestion> questions = null;
+        Database.getQuestionBySet(1100L, null);
         if (questions != null && !questions.isEmpty())
         {
             answeredQuestions = new ArrayList<>(0);
