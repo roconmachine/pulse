@@ -36,7 +36,7 @@ public class Quiz extends Fragment {
     List<QuizQuestion> quizQuestions = new ArrayList<>();
     int currentQuestionIndex = 0;
     private QuizViewModel quizViewModel;
-    private String username = "roconmachine@gmail.com";
+    private String username;
 
     public static Quiz newInstance() {
         return new Quiz();
@@ -48,6 +48,8 @@ public class Quiz extends Fragment {
         if (getArguments() != null) {
             setid = getArguments().getLong("set_id");
         }
+        // Initialize username by restoring user info from local preference
+        username = AppSharedPreference.getInstance(requireContext()).getString("user", "default_user");
     }
 
     @Override

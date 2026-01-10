@@ -15,6 +15,7 @@ import androidx.navigation.Navigation;
 
 import com.edu.io.pulse.R;
 import com.edu.io.pulse.databinding.FragmentLoginBinding;
+import com.edu.io.pulse.utils.AppSharedPreference;
 
 public class LoginFragment extends Fragment {
 
@@ -57,6 +58,10 @@ public class LoginFragment extends Fragment {
             binding.loginButton.setEnabled(true);
             binding.loginProgress.setVisibility(View.GONE);
             if (success) {
+                // Store username in SharedPreferences
+                String username = binding.emailEditText.getText().toString();
+                AppSharedPreference.getInstance(requireContext()).saveString("user", username);
+
                 Toast.makeText(getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.action_auth_login_to_nav_home);

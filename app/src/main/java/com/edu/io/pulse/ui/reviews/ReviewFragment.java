@@ -13,14 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.edu.io.pulse.R;
-import com.edu.io.pulse.ui.quiz.Answer;
 import com.edu.io.pulse.ui.quiz.QuizQuestion;
-import com.edu.io.pulse.utils.AppSharedPreference;
-import com.edu.io.pulse.utils.Database;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
