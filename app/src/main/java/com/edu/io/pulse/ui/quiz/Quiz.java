@@ -5,28 +5,28 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.CountDownTimer;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edu.io.pulse.R;
 import com.edu.io.pulse.databinding.FragmentQuizBinding;
 import com.edu.io.pulse.utils.AppSharedPreference;
 import com.edu.io.pulse.utils.Database;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Quiz extends Fragment {
 
@@ -37,6 +37,7 @@ public class Quiz extends Fragment {
     int currentQuestionIndex = 0;
     private QuizViewModel quizViewModel;
     private String username = "roconmachine@gmail.com";
+
     public static Quiz newInstance() {
         return new Quiz();
     }
@@ -169,32 +170,58 @@ public class Quiz extends Fragment {
         }
     }
 
-    private void submitAnswers(){
-        Database.submitAnswers(username , setid, quizQuestions, new Database.BackendCallback<Boolean>() {
+    private void submitAnswers() {
+        Database.submitAnswers(username, setid, quizQuestions, new Database.BackendCallback<Boolean>() {
             @Override
             public void onReceived(Boolean success) {
                 if (success) {
-                    /// TODO : display a list of questions with score in popup window.
-                    /// TODO : save this score in local storage
-                    /// TODO : navigate to quiz list
+                    showResultDialog();
+                } else {
+                    Toast.makeText(getContext(), "Failed to submit answers", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
             public void onError(Throwable t) {
-
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    private void showResultDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_quiz_result, null);
+        builder.setView(dialogView);
+
+        TextView tvTotalScore = dialogView.findViewById(R.id.tv_total_score);
+        RecyclerView rvResults = dialogView.findViewById(R.id.rv_results);
+
+        int totalScore = 0;
+        for (QuizQuestion q : quizQuestions) {
+            if (q.isCorrect()) {
+                totalScore++;
+            }
+        }
+
+        tvTotalScore.setText("Total Score: " + totalScore + " / " + quizQuestions.size());
+
+        QuizResultAdapter adapter = new QuizResultAdapter(quizQuestions);
+        rvResults.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvResults.setAdapter(adapter);
+
+        builder.setNegativeButton("Cancel", (dialog, which) ->{
+            dialog.dismiss();
+            AppSharedPreference.getInstance(getContext()).saveList("quiz_ans_"+ setid, quizQuestions);
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+            navController.navigate(R.id.nav_home);
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void finishQuiz() {
         submitAnswers();
-
-
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("quiz_questions", (ArrayList<QuizQuestion>) quizQuestions);
-//        NavController navController = Navigation.findNavController(requireView());
-//        navController.navigate(R.id.action_quiz_main_to_quiz_review, bundle);
     }
 
     @Override

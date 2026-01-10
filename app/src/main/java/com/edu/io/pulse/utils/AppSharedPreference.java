@@ -3,15 +3,25 @@ package com.edu.io.pulse.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AppSharedPreference {
     private static final String PREF_NAME = "AppPreferences";
     private static AppSharedPreference instance;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private Gson gson;
+
     private AppSharedPreference(Context context) {
         sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        gson = new Gson();
     }
 
     public static synchronized AppSharedPreference getInstance(Context context) {
@@ -21,6 +31,46 @@ public class AppSharedPreference {
         return instance;
     }
 
+    /**
+     * Save any Object (POJO, Parcelable, etc.) by converting it to JSON.
+     */
+    public <T> void saveObject(String key, T object) {
+        String json = gson.toJson(object);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    /**
+     * Retrieve an Object from JSON.
+     */
+    public <T> T getObject(String key, Class<T> clazz) {
+        String json = sharedPreferences.getString(key, null);
+        if (json == null) {
+            return null;
+        }
+        return gson.fromJson(json, clazz);
+    }
+
+    /**
+     * Save a List of Objects by converting it to JSON.
+     */
+    public <T> void saveList(String key, List<T> list) {
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    /**
+     * Retrieve a List of Objects from JSON.
+     */
+    public <T> List<T> getList(String key, Class<T> clazz) {
+        String json = sharedPreferences.getString(key, null);
+        if (json == null) {
+            return new ArrayList<>();
+        }
+        Type type = TypeToken.getParameterized(List.class, clazz).getType();
+        return gson.fromJson(json, type);
+    }
 
     // Save a string value
     public void saveString(String key, String value) {
