@@ -11,6 +11,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface QuestionBankService {
     @GET("/api/qSets/list/{examid}")
@@ -21,5 +22,8 @@ public interface QuestionBankService {
 
     @POST("/api/scoreBoards/submit")
     Call<Void> submitScore(@Body List<Score> scores);
+
+    @GET("/api/auth/login")
+    Call<Void> login(@Query("username") String username, @Query("password") String password);
 
 }

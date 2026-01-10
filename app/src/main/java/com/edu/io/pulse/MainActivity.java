@@ -1,34 +1,18 @@
 package com.edu.io.pulse;
 
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
-import com.edu.io.pulse.ui.quiz.QuizQuestion;
-import com.edu.io.pulse.utils.Database;
-import com.edu.io.pulse.utils.Util;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.core.content.res.ResourcesCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.edu.io.pulse.databinding.ActivityMainBinding;
-import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,63 +26,34 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        FloatingActionButton floating = findViewById(R.id.floating_btn);
-//        floating.setOnClickListener(v -> {
-//            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-//        });
         setSupportActionBar(binding.appBarMain.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,  R.id.nav_quiz_list)
+                R.id.nav_home, R.id.nav_quiz_list)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        //Database.setQuestions(readQuestionsFromJson());
-        //color change in bottom navigation bar
+
+        // Hide toolbar and drawer for login fragment
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.auth_login) {
+                binding.appBarMain.toolbar.setVisibility(View.GONE);
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            } else {
+                binding.appBarMain.toolbar.setVisibility(View.VISIBLE);
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+        });
+
         getWindow().setNavigationBarColor(getColor(R.color.primary_color));
-
     }
-
-//    private List<QuizQuestion> readQuestionsFromJson()  {
-//
-//        List<QuizQuestion> questions = new ArrayList<>();
-//        String jsonString = Util.getAssetJsonData(getApplicationContext());
-//        try {
-//            JSONArray array = new JSONArray(jsonString);
-//            QuizQuestion question;
-//            for (int i =0; i < array.length(); i++){
-//                JSONObject ques = array.getJSONObject(i);
-//                question = new QuizQuestion();
-//                question.setId(ques.optInt("id"));
-//                question.setQuestion(ques.optString("q"));
-//                question.setAnswer(ques.optInt("answer"));
-//                JSONArray options = ques.optJSONArray("options");
-//                String[] optionString = new String[4];
-//                for (int j =0; j < options.length(); j++){
-//                    optionString[j] = options.optString(j);
-//                }
-//                question.setOptions(optionString);
-//
-//                questions.add(question);
-//            }
-//        } catch (JSONException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        return questions;
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
