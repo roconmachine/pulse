@@ -17,7 +17,14 @@
         tools:layout="@layout/fragment_login" >
         <action android:id="@+id/action_auth_login_to_nav_home"
             app:destination="@id/nav_home" />
+        <action android:id="@+id/action_auth_login_to_auth_register"
+            app:destination="@id/auth_register" />
     </fragment>
+
+    <fragment android:id="@+id/auth_register"
+        android:name="com.edu.io.pulse.ui.auth.RegisterFragment"
+        android:label="Signup"
+        tools:layout="@layout/fragment_register" />
 
 
     <fragment

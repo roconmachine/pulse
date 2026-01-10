@@ -48,14 +48,18 @@ public class LoginFragment extends Fragment {
             loginViewModel.login(email, password);
         });
 
+        binding.signupButton.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_auth_login_to_auth_register);
+        });
+
         loginViewModel.getLoginStatus().observe(getViewLifecycleOwner(), success -> {
             binding.loginButton.setEnabled(true);
             binding.loginProgress.setVisibility(View.GONE);
             if (success) {
                 Toast.makeText(getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
                 NavController navController = Navigation.findNavController(view);
-                // Adjust this destination ID to your home or main fragment ID
-                navController.navigate(R.id.nav_home);
+                navController.navigate(R.id.action_auth_login_to_nav_home);
             }
         });
 

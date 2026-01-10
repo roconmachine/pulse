@@ -3,6 +3,7 @@ package com.edu.io.pulse.apis;
 import com.edu.io.pulse.apis.models.Question;
 import com.edu.io.pulse.apis.models.Score;
 import com.edu.io.pulse.apis.models.Sets;
+import com.edu.io.pulse.apis.models.UserRegistration;
 
 import java.util.List;
 
@@ -25,5 +26,8 @@ public interface QuestionBankService {
 
     @GET("/api/auth/login")
     Call<Void> login(@Query("username") String username, @Query("password") String password);
+
+    @POST("/api/auth/register")
+    Call<Void> register(@Body UserRegistration registration);
 
 }
