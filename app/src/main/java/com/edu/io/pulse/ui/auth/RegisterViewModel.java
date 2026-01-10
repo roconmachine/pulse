@@ -17,6 +17,7 @@ public class RegisterViewModel extends ViewModel {
 
     private final MutableLiveData<Boolean> _registerStatus = new MutableLiveData<>();
     private final MutableLiveData<String> _error = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> _usernameExists = new MutableLiveData<>();
 
     public LiveData<Boolean> getRegisterStatus() {
         return _registerStatus;
@@ -26,7 +27,38 @@ public class RegisterViewModel extends ViewModel {
         return _error;
     }
 
+    public LiveData<Boolean> getUsernameExists() {
+        return _usernameExists;
+    }
+
     public void register(String username, String fullName, String email, String password) {
+        QuestionBankService service = ApiClient.getClient().create(QuestionBankService.class);
+        
+        // First check if username exists
+        service.checkUsername(username).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body()) {
+                        _usernameExists.setValue(true);
+                        _error.setValue("Username already exists");
+                    } else {
+                        // Username available, proceed with registration
+                        performRegistration(service, username, fullName, email, password);
+                    }
+                } else {
+                    _error.setValue("Error checking username: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                _error.setValue("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void performRegistration(QuestionBankService service, String username, String fullName, String email, String password) {
         String hashedPassword = HashUtils.sha1(password);
         if (hashedPassword == null) {
             _error.setValue("Error hashing password");
@@ -34,7 +66,6 @@ public class RegisterViewModel extends ViewModel {
         }
 
         UserRegistration registration = new UserRegistration(username, fullName, email, hashedPassword);
-        QuestionBankService service = ApiClient.getClient().create(QuestionBankService.class);
         service.register(registration).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

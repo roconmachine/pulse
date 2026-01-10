@@ -30,4 +30,7 @@ public interface QuestionBankService {
     @POST("/api/auth/register")
     Call<Void> register(@Body UserRegistration registration);
 
+    @GET("/api/auth/checkUsername")
+    Call<Boolean> checkUsername(@Query("username") String username);
+
 }
