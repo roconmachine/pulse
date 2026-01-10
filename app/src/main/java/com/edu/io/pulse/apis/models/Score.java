@@ -11,10 +11,10 @@ public class Score {
     private String userId;
 
     @SerializedName("setid")
-    private int setId;
+    private Long setId;
 
     @SerializedName("questionId")
-    private int questionId;
+    private Long questionId;
 
     @SerializedName("givenAnswer")
     private String givenAnswer;
@@ -23,7 +23,12 @@ public class Score {
     private double score;
 
     // Default Constructor
-    public Score() {
+    public Score(String username, Long setid, Long questionid, String givenAnswer, double score) {
+        this.userId = username;
+        this.setId = setid;
+        this.questionId = questionid;
+        this.givenAnswer = givenAnswer;
+        this.score = score;
     }
 
     // Getters and Setters
@@ -43,19 +48,19 @@ public class Score {
         this.userId = userId;
     }
 
-    public int getSetId() {
+    public Long getSetId() {
         return setId;
     }
 
-    public void setSetId(int setId) {
+    public void setSetId(Long setId) {
         this.setId = setId;
     }
 
-    public int getQuestionId() {
+    public Long getQuestionId() {
         return questionId;
     }
 
-    public void setQuestionId(int questionId) {
+    public void setQuestionId(Long questionId) {
         this.questionId = questionId;
     }
 

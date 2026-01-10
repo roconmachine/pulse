@@ -60,40 +60,40 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        Database.setQuestions(readQuestionsFromJson());
+        //Database.setQuestions(readQuestionsFromJson());
         //color change in bottom navigation bar
         getWindow().setNavigationBarColor(getColor(R.color.primary_color));
 
     }
 
-    private List<QuizQuestion> readQuestionsFromJson()  {
-
-        List<QuizQuestion> questions = new ArrayList<>();
-        String jsonString = Util.getAssetJsonData(getApplicationContext());
-        try {
-            JSONArray array = new JSONArray(jsonString);
-            QuizQuestion question;
-            for (int i =0; i < array.length(); i++){
-                JSONObject ques = array.getJSONObject(i);
-                question = new QuizQuestion();
-                question.setId(ques.optInt("id"));
-                question.setQuestion(ques.optString("q"));
-                question.setAnswer(ques.optInt("answer"));
-                JSONArray options = ques.optJSONArray("options");
-                String[] optionString = new String[4];
-                for (int j =0; j < options.length(); j++){
-                    optionString[j] = options.optString(j);
-                }
-                question.setOptions(optionString);
-
-                questions.add(question);
-            }
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-
-        return questions;
-    }
+//    private List<QuizQuestion> readQuestionsFromJson()  {
+//
+//        List<QuizQuestion> questions = new ArrayList<>();
+//        String jsonString = Util.getAssetJsonData(getApplicationContext());
+//        try {
+//            JSONArray array = new JSONArray(jsonString);
+//            QuizQuestion question;
+//            for (int i =0; i < array.length(); i++){
+//                JSONObject ques = array.getJSONObject(i);
+//                question = new QuizQuestion();
+//                question.setId(ques.optInt("id"));
+//                question.setQuestion(ques.optString("q"));
+//                question.setAnswer(ques.optInt("answer"));
+//                JSONArray options = ques.optJSONArray("options");
+//                String[] optionString = new String[4];
+//                for (int j =0; j < options.length(); j++){
+//                    optionString[j] = options.optString(j);
+//                }
+//                question.setOptions(optionString);
+//
+//                questions.add(question);
+//            }
+//        } catch (JSONException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        return questions;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

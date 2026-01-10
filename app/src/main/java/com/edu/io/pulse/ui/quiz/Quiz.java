@@ -11,6 +11,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.os.CountDownTimer;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.edu.io.pulse.R;
 import com.edu.io.pulse.databinding.FragmentQuizBinding;
 import com.edu.io.pulse.utils.AppSharedPreference;
+import com.edu.io.pulse.utils.Database;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -29,19 +31,12 @@ import java.util.Map;
 public class Quiz extends Fragment {
 
     private FragmentQuizBinding binding;
-    private static final String ARG_PARAM1 = "set_no";
-    private Typeface fontBangla;
-    private int set = 0;
     private Long setid = 0L;
     CountDownTimer timer;
-    int numberOfQuestion;
     List<QuizQuestion> quizQuestions = new ArrayList<>();
-    HashMap<Integer, Answer> answers = new HashMap<Integer, Answer>(0);
-    Answer currentAnswer = new Answer();
     int currentQuestionIndex = 0;
     private QuizViewModel quizViewModel;
-
-
+    private String username = "roconmachine@gmail.com";
     public static Quiz newInstance() {
         return new Quiz();
     }
@@ -50,7 +45,6 @@ public class Quiz extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            set = getArguments().getInt(ARG_PARAM1);
             setid = getArguments().getLong("set_id");
         }
     }
@@ -88,7 +82,8 @@ public class Quiz extends Fragment {
         quizViewModel.fetchQuestionsBySet(setid);
 
     }
-    private void initView(){
+
+    private void initView() {
         currentQuestionIndex = -1;
         setNextQuestion();
         startTimer(this.quizQuestions.size() * 60);
@@ -101,15 +96,15 @@ public class Quiz extends Fragment {
         });
 
         binding.options.setOnCheckedChangeListener((group, checkedId) -> {
-
             int index = group.indexOfChild(group.findViewById(checkedId));
-            currentAnswer.setAns(index+1);
+            if (currentQuestionIndex >= 0 && currentQuestionIndex < quizQuestions.size()) {
+                quizQuestions.get(currentQuestionIndex).setGivenAnswer(index + 1);
+            }
         });
-        answers = new HashMap<Integer, Answer>(0);
     }
 
-    void startTimer(int secs){
-        timer = new CountDownTimer(1000L * secs,1000) {
+    void startTimer(int secs) {
+        timer = new CountDownTimer(1000L * secs, 1000) {
             @Override
             public void onTick(long l) {
                 long hours = (l / (1000 * 60 * 60)) % 24;  // Hours
@@ -131,27 +126,17 @@ public class Quiz extends Fragment {
     }
 
     private void setNextQuestion() {
-        this.answers.put((Integer) this.currentAnswer.getIdQuestion(), this.currentAnswer);
         currentQuestionIndex++;
-        if(currentQuestionIndex >= this.quizQuestions.size()){
+        if (currentQuestionIndex >= this.quizQuestions.size()) {
             finishQuiz();
             return;
         }
         QuizQuestion question = this.quizQuestions.get(currentQuestionIndex);
         this.setQuestion(question);
-        //this.setAnswer();
-    }
-
-    private void setAnswer() {
-        this.currentAnswer = new Answer();
-        this.currentAnswer.setIdQuestion(this.quizQuestions.get(currentQuestionIndex).getId());
-        this.currentAnswer.setCurrectAnswer(this.quizQuestions.get(currentQuestionIndex).getAnswer());
     }
 
     private void setPrevQuestion() {
-        this.answers.put((Integer) this.currentAnswer.getIdQuestion(), this.currentAnswer);
-        if (this.currentQuestionIndex <=0)
-        {
+        if (this.currentQuestionIndex <= 0) {
             return;
         }
         currentQuestionIndex--;
@@ -160,52 +145,63 @@ public class Quiz extends Fragment {
         this.setQuestion(question);
     }
 
-
-    private void setQuestion(QuizQuestion question){
-
-
+    private void setQuestion(QuizQuestion question) {
         binding.question.setText(question.getQuestion());
         binding.options.clearCheck();
-        binding.optionA.setText(getString(R.string.option_label_format,"1", question.getOptions()[0]));
-        binding.optionB.setText(getString(R.string.option_label_format,"2", question.getOptions()[1]));
-        binding.optionC.setText(getString(R.string.option_label_format,"3", question.getOptions()[2]));
-        binding.optionD.setText(getString(R.string.option_label_format,"4", question.getOptions()[3]));
+        binding.optionA.setText(getString(R.string.option_label_format, "1", question.getOptions()[0]));
+        binding.optionB.setText(getString(R.string.option_label_format, "2", question.getOptions()[1]));
+        binding.optionC.setText(getString(R.string.option_label_format, "3", question.getOptions()[2]));
+        binding.optionD.setText(getString(R.string.option_label_format, "4", question.getOptions()[3]));
 
         binding.questionCounter.setText(getString(
-                        R.string.question_counter_format,
-                        currentQuestionIndex+1,
-                        this.quizQuestions.size()
-                )
-        );
+                R.string.question_counter_format,
+                currentQuestionIndex + 1,
+                this.quizQuestions.size()
+        ));
 
-        if (currentQuestionIndex==this.quizQuestions.size()-1){
+        if (currentQuestionIndex == this.quizQuestions.size() - 1) {
             binding.nextBtn.setText(R.string.btnFinishText);
         }
 
-        setAnswer();
-    }
-
-
-
-
-    private void finishQuiz()
-    {
-        for (Map.Entry<Integer, Answer> entry : this.answers.entrySet()) {
-            AppSharedPreference.getInstance(getContext()).saveString(entry.getKey() + "", new Gson().toJson(entry.getValue()));
+        // Pre-select the option if already answered
+        if (question.getGivenAnswer() > 0) {
+            ((android.widget.RadioButton) binding.options.getChildAt(question.getGivenAnswer() - 1)).setChecked(true);
         }
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("set_no", this.set);
-        NavController navController = Navigation.findNavController(requireView());
-        navController.navigate(R.id.action_quiz_main_to_quiz_review, bundle);
     }
 
+    private void submitAnswers(){
+        Database.submitAnswers(username , setid, quizQuestions, new Database.BackendCallback<Boolean>() {
+            @Override
+            public void onReceived(Boolean success) {
+                if (success) {
+                    /// TODO : display a list of questions with score in popup window.
+                    /// TODO : save this score in local storage
+                    /// TODO : navigate to quiz list
+                }
 
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+        });
+    }
+    private void finishQuiz() {
+        submitAnswers();
+
+
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("quiz_questions", (ArrayList<QuizQuestion>) quizQuestions);
+//        NavController navController = Navigation.findNavController(requireView());
+//        navController.navigate(R.id.action_quiz_main_to_quiz_review, bundle);
+    }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+        }
     }
-
 }

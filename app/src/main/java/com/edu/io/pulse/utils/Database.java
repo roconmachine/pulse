@@ -3,6 +3,7 @@ package com.edu.io.pulse.utils;
 import com.edu.io.pulse.apis.ApiClient;
 import com.edu.io.pulse.apis.QuestionBankService;
 import com.edu.io.pulse.apis.models.Question;
+import com.edu.io.pulse.apis.models.Score;
 import com.edu.io.pulse.apis.models.Sets;
 import com.edu.io.pulse.ui.quiz.QuizQuestion;
 import com.edu.io.pulse.ui.quiz_list.SetsDomain;
@@ -16,8 +17,28 @@ import retrofit2.Response;
 
 public class Database {
     private static List<QuizQuestion> questions;
-    private static final int QUESTION_PERSET = 2;
     private static final Long examid = 10005L;
+    public static void submitAnswers(String username, Long setid, List<QuizQuestion> quizQuestions, BackendCallback<Boolean> backendCallback) {
+        QuestionBankService service = ApiClient.getClient().create(QuestionBankService.class);
+        List<Score> scores = new ArrayList<>();
+        quizQuestions.forEach(quizQuestion -> {
+            scores.add(new Score(username, setid, (long) quizQuestion.getId(), String.valueOf(quizQuestion.getGivenAnswer()), quizQuestion.getScore()));
+        });
+        Call<Void> call = service.submitScore(scores);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response!=null && response.isSuccessful() && response.code() == 201)
+                    backendCallback.onReceived(true);
+                else backendCallback.onReceived(false);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                backendCallback.onError(t);
+            }
+        });
+    }
 
     public interface SetsCallback {
         void onSetsReceived(List<SetsDomain> sets);
@@ -42,7 +63,7 @@ public class Database {
             public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     response.body().forEach(question -> {
-                        quizQuestions.add(new QuizQuestion(question.getQuestionText(),
+                        quizQuestions.add(new QuizQuestion(question.getId() ,question.getQuestionText(),
                                 List.of(question.getOptA(), question.getOptB(), question.getOptC(), question.getOptD()).toArray(new String[0]),
                                 question.getAnswer().equalsIgnoreCase("A") ? 1 :
                                         question.getAnswer().equalsIgnoreCase("B") ? 2 :
@@ -88,4 +109,5 @@ public class Database {
     public static String getSetName(int set){
         return "Set " + set;
     }
+
 }

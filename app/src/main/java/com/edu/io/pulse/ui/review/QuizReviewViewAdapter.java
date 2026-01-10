@@ -1,40 +1,64 @@
 package com.edu.io.pulse.ui.review;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.edu.io.pulse.databinding.FragmentQuizReviewBinding;
 
-import java.util.ArrayList;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.edu.io.pulse.databinding.FragmentQuizReviewBinding;
+import com.edu.io.pulse.ui.quiz.QuizQuestion;
+
 import java.util.List;
+
 public class QuizReviewViewAdapter extends RecyclerView.Adapter<QuizReviewViewAdapter.ViewHolder> {
 
-    private final List<AnsweredQuestion> mValues;
+    private final List<QuizQuestion> questions;
 
-    public QuizReviewViewAdapter(List<AnsweredQuestion> items) {
-        mValues = (items != null) ? items : new ArrayList<>();
+    public QuizReviewViewAdapter(List<QuizQuestion> items) {
+        questions = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         return new ViewHolder(FragmentQuizReviewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.textViewAnser.setText(mValues.get(position).getYouranswer());
-        holder.textViewQuestion.setText(mValues.get(position).getQuestion());
-        holder.textViewAnswerIfWrong.setText(mValues.get(position).getAnswer());
+        QuizQuestion question = this.questions.get(position);
+        holder.mItem = question;
+
+        // Fix: Convert int to String or get the option text to avoid Resources$NotFoundException
+        String givenAnswerText = "Not Answered";
+        if (question.getGivenAnswer() > 0 && question.getGivenAnswer() <= question.getOptions().length) {
+            givenAnswerText = question.getOptions()[question.getGivenAnswer() - 1];
+        }
+        holder.textViewAnser.setText(givenAnswerText);
+
+        holder.textViewQuestion.setText(question.getQuestion());
+
+        String correctAnswerText = "";
+        if (question.getAnswer() > 0 && question.getAnswer() <= question.getOptions().length) {
+            correctAnswerText = "Correct: " + question.getOptions()[question.getAnswer() - 1];
+        }
+        holder.textViewAnswerIfWrong.setText(correctAnswerText);
+
+        // Optional: Visual feedback for correct/incorrect
+        if (question.isCorrect()) {
+            holder.imgCheckedCorrent.setVisibility(View.VISIBLE);
+            holder.textViewAnswerIfWrong.setVisibility(View.GONE);
+        } else {
+            holder.imgCheckedCorrent.setVisibility(View.INVISIBLE);
+            holder.textViewAnswerIfWrong.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return questions.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,7 +67,7 @@ public class QuizReviewViewAdapter extends RecyclerView.Adapter<QuizReviewViewAd
         public final ImageView imgCheckedCorrent;
         public final TextView textViewAnswerIfWrong;
 
-        public AnsweredQuestion mItem;
+        public QuizQuestion mItem;
 
         public ViewHolder(FragmentQuizReviewBinding binding) {
             super(binding.getRoot());
@@ -52,7 +76,5 @@ public class QuizReviewViewAdapter extends RecyclerView.Adapter<QuizReviewViewAd
             imgCheckedCorrent = binding.checkedCorrect;
             textViewAnswerIfWrong = binding.answerIfWrong;
         }
-
-
     }
 }

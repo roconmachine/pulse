@@ -11,18 +11,6 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_item" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_gallery"-->
-<!--        android:name="com.edu.io.pulse.ui.gallery.GalleryFragment"-->
-<!--        android:label="@string/menu_gallery"-->
-<!--        tools:layout="@layout/fragment_gallery" />-->
-
-<!--    <fragment-->
-<!--        android:id="@+id/nav_slideshow"-->
-<!--        android:name="com.edu.io.pulse.ui.slideshow.SlideshowFragment"-->
-<!--        android:label="@string/menu_slideshow"-->
-<!--        tools:layout="@layout/fragment_slideshow" />-->
-
     <fragment
         android:id="@+id/nav_quiz_list"
         android:name="com.edu.io.pulse.ui.quiz_list.ListSetsFragment"
@@ -32,6 +20,7 @@
             android:id="@+id/action_nav_quiz_list_to_quiz_main"
             app:destination="@id/quizStartFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/quiz_main"
         android:name="com.edu.io.pulse.ui.quiz.Quiz"
@@ -44,6 +33,7 @@
             android:id="@+id/action_quiz_main_to_nav_home"
             app:destination="@id/nav_quiz_list" />
     </fragment>
+
     <fragment
         android:id="@+id/quizStartFragment"
         android:name="com.edu.io.pulse.ui.QuizStartFragment"
@@ -56,9 +46,9 @@
 
     <fragment
         android:id="@+id/fragment_review"
-        android:name="com.edu.io.pulse.ui.reviews.ReviewFragment"
+        android:name="com.edu.io.pulse.ui.review.QuizReviewFragment"
         android:label="Review"
-        tools:layout="@layout/fragment_review" >
+        tools:layout="@layout/fragment_quiz_review_list" >
         <action
             android:id="@+id/action_quiz_review_to_nav_home"
             app:destination="@id/nav_home" />

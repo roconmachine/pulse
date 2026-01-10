@@ -1,12 +1,16 @@
 package com.edu.io.pulse.ui.quiz;
 
-public class QuizQuestion {
-    private int id;
+import java.io.Serializable;
+
+public class QuizQuestion implements Serializable {
+    private Long id;
     private String question;
     private String[] options;
     private int answer;
+    private int givenAnswer;
 
-    public QuizQuestion(String question, String[] options, int answer) {
+    public QuizQuestion(Long id, String question, String[] options, int answer) {
+        this.id = id;
         this.question = question;
         this.options = options;
         this.answer = answer;
@@ -40,11 +44,26 @@ public class QuizQuestion {
         this.answer = youranswer;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
+    public int getGivenAnswer() {
+        return givenAnswer;
+    }
+
+    public void setGivenAnswer(int givenAnswer) {
+        this.givenAnswer = givenAnswer;
+    }
+    public boolean isCorrect() {
+        return answer == givenAnswer;
+    }
+    public double getScore(){
+        return isCorrect()?1.0 : -0.5;
+    }
+
+
 }

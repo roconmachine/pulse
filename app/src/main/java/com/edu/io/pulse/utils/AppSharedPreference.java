@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class AppSharedPreference {
-    private static final String PREF_NAME = "AppPreferences"; // Name of SharedPreferences file
+    private static final String PREF_NAME = "AppPreferences";
     private static AppSharedPreference instance;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;

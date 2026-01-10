@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.edu.io.pulse.ui.review.AnsweredQuestion;
-import com.edu.io.pulse.ui.reviews.placeholder.PlaceholderContent.PlaceholderItem;
+
 import com.edu.io.pulse.databinding.FragmentReviewBinding;
+import com.edu.io.pulse.ui.quiz.QuizQuestion;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ import java.util.List;
  */
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 
-    private final List<AnsweredQuestion> mValues;
+    private final List<QuizQuestion> mValues;
 
-    public ReviewsAdapter(List<AnsweredQuestion> items) {
+    public ReviewsAdapter(List<QuizQuestion> items) {
         mValues = items;
     }
 
@@ -54,7 +54,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         public final TextView answer;
         public final ImageView checkedAnser;
         public final TextView correctAnswer;
-        public AnsweredQuestion mItem;
+        public QuizQuestion mItem;
 
         public ViewHolder(FragmentReviewBinding binding) {
             super(binding.getRoot());

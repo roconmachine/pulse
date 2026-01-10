@@ -9,25 +9,19 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.edu.io.pulse.R;
 import com.edu.io.pulse.ui.quiz.Answer;
 import com.edu.io.pulse.ui.quiz.QuizQuestion;
-import com.edu.io.pulse.ui.review.AnsweredQuestion;
-import com.edu.io.pulse.ui.reviews.placeholder.PlaceholderContent;
 import com.edu.io.pulse.utils.AppSharedPreference;
 import com.edu.io.pulse.utils.Database;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A fragment representing a list of Items.
@@ -41,6 +35,7 @@ public class ReviewFragment extends Fragment {
     private int set = 0;
     private final Gson gson = new Gson();
     FloatingActionButton floating;
+    List<QuizQuestion> questions;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,6 +59,7 @@ public class ReviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
+            List<QuizQuestion> questions = (List<QuizQuestion>) getArguments().getSerializable("quiz_questions");
             String ARG_PARAM1 = "set_no";
             set = getArguments().getInt(ARG_PARAM1);
         }
@@ -83,7 +79,7 @@ public class ReviewFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new ReviewsAdapter(getData()));
+            recyclerView.setAdapter(new ReviewsAdapter(questions));
         }
 
         floating = requireActivity().findViewById(R.id.floating_btn);
@@ -97,28 +93,6 @@ public class ReviewFragment extends Fragment {
         });
         return view;
     }
-
-    private List<AnsweredQuestion> getData(){
-        List<AnsweredQuestion> answeredQuestions =  new ArrayList<>(0);
-        List<QuizQuestion> questions = null;
-        Database.getQuestionBySet(1100L, null);
-        if (questions != null && !questions.isEmpty())
-        {
-            answeredQuestions = new ArrayList<>(0);
-
-            AnsweredQuestion answeredQuestion;
-            for (QuizQuestion q:questions) {
-                answeredQuestion = new AnsweredQuestion(q);
-                String jsonQuizQuestion = AppSharedPreference.getInstance(getContext()).getString(q.getId()+"", null);
-                answeredQuestion.setYouranswer(this.gson.fromJson(jsonQuizQuestion, Answer.class).getAns());
-                answeredQuestions.add(answeredQuestion);
-            }
-        }
-
-        return answeredQuestions;
-    }
-
-
 
     @Override
     public void onDetach() {

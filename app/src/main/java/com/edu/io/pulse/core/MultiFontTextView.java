@@ -18,6 +18,8 @@ public class MultiFontTextView extends AppCompatTextView {
     private TextPaint banglaTextPaint; // Second font style
 
     private String text;
+    private final int LINE_SPACING = 15;
+
 
     public MultiFontTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -57,7 +59,7 @@ public class MultiFontTextView extends AppCompatTextView {
         float cursorX = getPaddingLeft();
         // getBaseline() is a good starting Y for the first line.
         float cursorY = getBaseline();
-        float lineHeight = getPaint().getFontSpacing() + 5;
+        float lineHeight = getPaint().getFontSpacing() + LINE_SPACING;
         int availableWidth = getWidth() - getPaddingLeft() - getPaddingRight();
 
 
